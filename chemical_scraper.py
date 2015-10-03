@@ -10,12 +10,8 @@ def standard_filter(feed):
     out = re.sub(r'<h[56]>.*</h[56]>', '', out)
     out = re.sub(r'<br ?/>.*', '', out)
     out = out.replace('</td>', '')
-    out = re.sub('(\r)?\n', '', out)
-
-    links = bs4.BeautifulSoup(out, 'html.parser').find_all('a')
-    for link in links:
-        out.replace(str(link), '')
-
+    out = re.sub(r'(\r)?\n', '', out)
+    out = re.sub(r'<a.*</a>', '', out)
     out = out.strip()
     return out
 
@@ -56,7 +52,7 @@ def main():
                 row[5] = str(cells[8])
                 row[6] = str(cells[11])
                 row[7] = str(cells[12])
-                row[8] = str(cells[13])
+                row[8] = str(cells[13]).replace('MLT: ', '')
                 row[9] = str(cells[14])
                 row[10] = str(cells[15])
                 row[11] = str(cells[16])
