@@ -85,11 +85,11 @@ def main():
     chemicals_and_exposures = wdqs(chemicals_and_exposures_query)
     
     master_list = {}
-    for item in chemicals_and_exposure:
+    for item in chemicals_and_exposures:
         print("Processing chemical/exposure item: " + item)
         blob = entitydata(item)
-        chemicals_and_exposure_labels = other_language_labels(blob, language_codes)
-        for entry in chemicals_and_exposure_labels:
+        chemicals_and_exposures_labels = other_language_labels(blob, language_codes)
+        for entry in chemicals_and_exposures_labels:
             master_list[item] = entry
         for link in linked_on_page(blob):
             if link in master_list:
