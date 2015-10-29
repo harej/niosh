@@ -103,8 +103,6 @@ def main():
                 for entry in labels:
                     master_list[link] = entry
 
-    master_list = list(set(master_list))  # just in case
-
     print("Doing gap analysis...")
     gap_report = gap_analysis(master_list)
     pprint(gap_report)  # debug
