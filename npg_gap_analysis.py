@@ -33,7 +33,7 @@ def linked_on_page(blob):
 
     output = []
     for entity in blob['entities']:  # There will only ever be one
-        for claim in entity['claims']:
+        for claim in entity['claims'].values():
             for subclaim in claim:
                 output.append(subclaim['mainsnak']['property'])  # Property number
                 if subclaim['mainsnak']['datatype'] == "wikibase-item":
