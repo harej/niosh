@@ -32,7 +32,7 @@ def linked_on_page(blob):
     # Takes EntityData dictionary and returns list of items and properties linked on a Wikidata item
 
     output = []
-    for entity in blob['entities']:  # There will only ever be one
+    for entity in blob['entities'].values():  # There will only ever be one
         for claim in entity['claims'].values():
             for subclaim in claim:
                 output.append(subclaim['mainsnak']['property'])  # Property number
