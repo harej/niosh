@@ -50,8 +50,7 @@ def other_language_labels(blob, language_codes):
     # Returns dictionary of language code -> label (or language code -> None)
 
     output = {x: None for x in language_codes}  # Default is no label
-    for entity in blob['entities']:
-        print(type(entity))  # debug
+    for entity in blob['entities'].values():
         for language_code in language_codes:
             if language_code in entity['labels']:
                 output[language_code] = entity['labels'][language_code]['value']
