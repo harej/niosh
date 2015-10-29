@@ -1,0 +1,5 @@
+.htaccess
+bin/
+include/
+lib/
+replica.my.cnf
