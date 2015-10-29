@@ -91,17 +91,13 @@ def main():
     for item in chemicals_and_exposures:
         print("Processing chemical/exposure item: " + item)
         blob = entitydata(item)
-        chemicals_and_exposures_labels = other_language_labels(blob, language_codes)
-        for entry in chemicals_and_exposures_labels:
-            master_list[item] = entry
+        master_list[item] = other_language_labels(blob, language_codes)
         for link in linked_on_page(blob):
             if link in master_list:
                 continue
             else:
                 print("Processing linked entity: " + link)
-                labels = other_language_labels(entitydata(link), language_codes)
-                for entry in labels:
-                    master_list[link] = entry
+                master_list[link] = other_language_labels(entitydata(link), language_codes)
 
     print("Doing gap analysis...")
     gap_report = gap_analysis(master_list)
