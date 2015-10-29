@@ -73,7 +73,7 @@ def gap_analysis(manifest):
 
     return {code: sum / total for code, sum in counter.items()}
 
-def web_page_generator(manifest):
+#def web_page_generator(manifest):
     # Takes a dictionary of dictionaries {item -> {language: label}}
     # Returns nothing; creates two web pages
 
