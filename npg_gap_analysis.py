@@ -66,7 +66,7 @@ def gap_analysis(manifest):
     total = len(manifest)
     counter = {}
 
-    for entry in manifest.values():
+    for number,entry in manifest.items():
         for code, label in entry.items():
             if label != None:
                 if code not in counter:
