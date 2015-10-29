@@ -49,6 +49,7 @@ def other_language_labels(blob, language_codes):
     # Takes EntityData dictionary, list of ISO language codes (e.g. ['en', 'de'])
     # Returns dictionary of language code -> label (or language code -> None)
 
+    print(blob)  # debug
     output = {x: None for x in language_codes}  # Default is no label
     for entity in blob['entities']:
         for language_code in language_codes:
