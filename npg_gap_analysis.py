@@ -36,9 +36,11 @@ def linked_on_page(blob):
         for claim in entity['claims'].values():
             for subclaim in claim:
                 output.append(subclaim['mainsnak']['property'])  # Property number
-                if subclaim['mainsnak']['datatype'] == "wikibase-item":
+                if subclaim['mainsnak']['datatype'] == "wikibase-item" \
+                   and subclaim['mainsnak']['snaktype'] != "somevalue":
                     output.append('Q' + str(subclaim['mainsnak']['datavalue']['value']['numeric-id']))  # Item number
-                elif subclaim['mainsnak']['datatype'] == "quantity":  # If the claim involves a unit of measurement
+                elif subclaim['mainsnak']['datatype'] == "quantity" \  # If the claim involves a unit of measurement
+                     and subclaim['mainsnak']['snaktype'] != "somevalue":
                     if subclaim['mainsnak']['datavalue']['value']['unit'] != "1":
                         measurement_item = subclaim['mainsnak']['datavalue']['value']['unit']
                         measurement_item = measurement_item.replace("http://www.wikidata.org/entity/", "")
