@@ -4,9 +4,7 @@
 # Public domain
 
 import requests
-import datetime
 import page_render
-from pprint import pprint
 
 
 def wdqs(encoded_query):
@@ -102,6 +100,9 @@ def main():
 
     print("Preparing page...")
     page = page_render.pageRender(master_list, gap_report, language_labels)
+
+    with open("./public_html/wdtranslations.html", "w") as f:
+        f.write(page)
 
 
 if __name__ == "__main__":

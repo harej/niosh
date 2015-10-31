@@ -1,10 +1,13 @@
 # OOjs UI license: https://github.com/wikimedia/oojs-ui/blob/master/LICENSE-MIT
 # Everything else: public domain
 
+import time  # Whoa.
 
 def pageRender(manifest, gap_report, language_labels):
     # Takes data and returns a static HTML page using OOjs UI
     # Page is returned as a string. A very long string.
+
+    now = time.strftime("%c")
 
     page = '''
            <!DOCTYPE html>
@@ -62,7 +65,7 @@ def pageRender(manifest, gap_report, language_labels):
         block += "function " + language + "Layout( name, config ) {  \n"
 
         block += "  " + language + "Layout.super.call( this, name, config );\n"
-        block += "  this.$element.append( '<h1>NIOSH Wikidata Translation Report</h1>' );\n"
+        block += "  this.$element.append( '<h1>NIOSH Wikidata Translation Report</h1><p>Last updated: " + now + "</p><br />' );\n"
     
         block += "  var progressBar = new OO.ui.ProgressBarWidget( {\n"
         block += "    progress: " + str(int(gap_report[language] * 100)) + "\n"
