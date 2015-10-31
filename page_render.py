@@ -117,7 +117,7 @@ def pageRender(manifest, gap_report, language_labels):
                 button += "    classes: [ 'inlineButton' ]\n"
                 button += "  } );\n"
                 button += "  var Row" + str(buttonCounter) + " = '<tr class=translated><td>"
-                button += label_dict['en'] + "</td><td>→</td><td>" + label
+                button += label_dict['en'] + "</td><td>→</td><td>" + label_dict[language]
                 button += "</td><td class=placeholder" + str(buttonCounter) + "></td></tr>';\n"
 
             block += button
