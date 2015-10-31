@@ -65,7 +65,7 @@ def pageRender(manifest, gap_report, language_labels):
         block += "  this.$element.append( '<h1>NIOSH Wikidata Translation Report</h1>' );\n"
     
         block += "  var progressBar = new OO.ui.ProgressBarWidget( {\n"
-        block += "    progress: " + str(int(gap_report[language])) + "\n"
+        block += "    progress: " + str(int(gap_report[language] * 100)) + "\n"
         block += "  } );\n"
     
         block += "  this.$element.append( progressBar.$element );\n"
