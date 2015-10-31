@@ -140,10 +140,8 @@ def pageRender(manifest, gap_report, language_labels):
         page += block
 
     for version in language_labels:
-        if version == "en":  # Again, English does not have its own list
-            continue
-
-        page += "var page" + language + " = new " + language + "Layout( '" + language + "' );\n"
+        if version != "en":  # Again, English does not have its own list
+            page += "var page" + language + " = new " + language + "Layout( '" + language + "' );\n"
 
     page += '''
            var booklet = new OO.ui.BookletLayout( { 
