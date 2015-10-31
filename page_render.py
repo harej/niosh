@@ -56,8 +56,8 @@ def pageRender(manifest, gap_report, language_labels):
 
            '''
 
-    for language, collection in manifest.items():
-        if language == 'en': # We don't generate a report in English
+    for language, ratio in gap_report.items():
+        if language != 'en': # We don't generate a report in English
             continue
 
         block = "\n"  # Mark Block here
@@ -68,7 +68,7 @@ def pageRender(manifest, gap_report, language_labels):
         block += "  this.$element.append( '<h1>NIOSH Wikidata Translation Report</h1><p>Last updated: " + now + "</p><br />' );\n"
     
         block += "  var progressBar = new OO.ui.ProgressBarWidget( {\n"
-        block += "    progress: " + str(int(gap_report[language] * 100)) + "\n"
+        block += "    progress: " + str(int(ratio * 100)) + "\n"
         block += "  } );\n"
     
         block += "  this.$element.append( progressBar.$element );\n"
@@ -90,8 +90,8 @@ def pageRender(manifest, gap_report, language_labels):
         buttonDefinitions = ""
         buttonCounter = 1
 
-        for wikidataitem, label in collection.items():
-            if label == None:  # Term needs to be translated
+        for wikidataitem, label_dict in manifest.items():
+            if label_dict[language] == None:  # Term needs to be translated
                 button = ""
                 button += "  var tableButton" + str(buttonCounter) + " = new OO.ui.ButtonWidget( {\n"
                 button += "    label: 'Add Translation',\n"
@@ -103,7 +103,7 @@ def pageRender(manifest, gap_report, language_labels):
                 button += "    classes: [ 'inlineButton' ]"
                 button += "  } );\n"
                 button += "  var Row" + str(buttonCounter) + " = '<tr class=missing><td>"
-                button += manifest['en'][wikidataitem] + "</td><td>→</td><td>missing</td><td class=placeholder"
+                button += label_dict['en'] + "</td><td>→</td><td>missing</td><td class=placeholder"
                 button += str(buttonCounter) + "></td></tr>';\n"
             else:  # Term has already been translated
                 button = ""
@@ -117,7 +117,7 @@ def pageRender(manifest, gap_report, language_labels):
                 button += "    classes: [ 'inlineButton' ]\n"
                 button += "  } );\n"
                 button += "  var Row" + str(buttonCounter) + " = '<tr class=translated><td>"
-                button += manifest['en'][wikidataitem] + "</td><td>→</td><td>" + label
+                button += label_dict['en'] + "</td><td>→</td><td>" + label
                 button += "</td><td class=placeholder" + str(buttonCounter) + "></td></tr>';\n"
 
             block += button
