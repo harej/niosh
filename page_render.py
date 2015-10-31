@@ -131,6 +131,7 @@ def pageRender(manifest, gap_report, language_labels):
         for x in range(1, buttonCounter):  # Yes, this again
             block += "  this.$element.find( '.placeholder" + str(x) + "' ).append( tableButton" + str(x) + ".$element );\n"
 
+        block += "}\n"
         block += "  OO.inheritClass( " + language + "Layout, OO.ui.PageLayout );\n"
         block += "  " + language + "Layout.prototype.setupOutlineItem = function () {\n"
         block += "    this.outlineItem.setLabel( '" + language_labels[language] + "' );\n"
