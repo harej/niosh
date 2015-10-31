@@ -103,7 +103,11 @@ def pageRender(manifest, gap_report, language_labels):
                 button += "    classes: [ 'inlineButton' ]"
                 button += "  } );\n"
                 button += "  var Row" + str(buttonCounter) + " = '<tr class=missing><td>"
-                button += label_dict['en'] + "</td><td>→</td><td>missing</td><td class=placeholder"
+                if 'en' in label_dict:
+                    button += label_dict['en']
+                else:
+                    button += missing
+                button += "</td><td>→</td><td>missing</td><td class=placeholder"
                 button += str(buttonCounter) + "></td></tr>';\n"
             else:  # Term has already been translated
                 button = ""
@@ -117,7 +121,11 @@ def pageRender(manifest, gap_report, language_labels):
                 button += "    classes: [ 'inlineButton' ]\n"
                 button += "  } );\n"
                 button += "  var Row" + str(buttonCounter) + " = '<tr class=translated><td>"
-                button += label_dict['en'] + "</td><td>→</td><td>" + label_dict[language]
+                if 'en' in label_dict:
+                    button += label_dict['en']
+                else:
+                    button += missing
+                button += "</td><td>→</td><td>" + label_dict[language]
                 button += "</td><td class=placeholder" + str(buttonCounter) + "></td></tr>';\n"
 
             block += button
