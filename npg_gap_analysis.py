@@ -5,6 +5,7 @@
 
 import requests
 import datetime
+import page_render
 from pprint import pprint
 
 
@@ -76,12 +77,9 @@ def gap_analysis(manifest):
 
     return {code: sum / total for code, sum in counter.items()}
 
-#def web_page_generator(manifest):
-    # Takes a dictionary of dictionaries {item -> {language: label}}
-    # Returns nothing; creates two web pages
-
 def main():
-    language_codes = ['en', 'es', 'zh', 'fr', 'de']
+    language_codes =  ['en', 'es', 'zh', 'fr', 'de']
+    language_labels = {'en': 'English', 'es': 'español', 'zh': '中文', 'fr': 'français', 'de': 'Deutsch'}
     
     print("Querying for list of chemical/exposure items...")
     chemicals_and_exposures_query = "prefix%20wdt%3A%20<http%3A%2F%2Fwww.wikidata.org%2Fprop%2Fdirect%2F>%0Aprefix%20entity%3A%20<http%3A%2F%2Fwww.wikidata.org%2Fentity%2F>%0ASELECT%20%3Fitem%20WHERE%20%7B%0A%7B%0A%20%20%20%20%3Fitem%20wdt%3AP1931%20%3Fdummy0%20.%0A%7D%20UNION%20%7B%0A%20%20%20%20%3Fitem%20wdt%3AP279%20entity%3AQ21167512%20.%0A%7D%0A%7D"
@@ -101,7 +99,9 @@ def main():
 
     print("Doing gap analysis...")
     gap_report = gap_analysis(master_list)
-    pprint(gap_report)  # debug
+
+    print("Preparing page...")
+    page = page_render.pageRender(master_list, gap_report, language_labels)
 
 
 if __name__ == "__main__":
