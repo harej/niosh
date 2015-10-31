@@ -142,7 +142,7 @@ def pageRender(manifest, gap_report, language_labels):
         if version == "en":  # Again, English does not have its own list
             continue
 
-        page += "var page" + language + " = new " + language + "Layout( " + language + " )\n"
+        page += "var page" + language + " = new " + language + "Layout( '" + language + "' )\n"
 
     page += '''
            var booklet = new OO.ui.BookletLayout( { 
@@ -152,7 +152,8 @@ def pageRender(manifest, gap_report, language_labels):
 
     list_of_pages = ""
     for language in manifest:
-        list_of_pages += "page" + language + ", "
+        if language != "en":
+            list_of_pages += "page" + language + ", "
     list_of_pages = list_of_pages[:-2]
 
     page += "booklet.addPages ( [ " + list_of_pages + " ] );\n"
