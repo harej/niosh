@@ -106,7 +106,7 @@ def pageRender(manifest, gap_report, language_labels):
                 if label_dict['en'] != None:
                     button += label_dict['en']
                 else:
-                    button += missing
+                    button += "missing"
                 button += "</td><td>→</td><td>missing</td><td class=placeholder"
                 button += str(buttonCounter) + "></td></tr>';\n"
             else:  # Term has already been translated
@@ -124,7 +124,7 @@ def pageRender(manifest, gap_report, language_labels):
                 if label_dict['en'] != None:
                     button += label_dict['en']
                 else:
-                    button += missing
+                    button += "missing"
                 button += "</td><td>→</td><td>" + label_dict[language]
                 button += "</td><td class=placeholder" + str(buttonCounter) + "></td></tr>';\n"
 
