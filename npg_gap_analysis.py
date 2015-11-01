@@ -108,9 +108,9 @@ def main():
     export['fr']['language_label'] = "français"
     export['de']['language_label'] = "Deutsch"
 
-    for language_code in data:
+    for language_code in export:
         for wikidataitem, label_dict in master_list.items():
-            data[language_code]['wikidata'][wikidataitem] = label_dict[language_code]
+            export[language_code]['wikidata'][wikidataitem] = label_dict[language_code]
         
     page = page_render.pageRender(export)
 
