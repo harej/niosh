@@ -104,7 +104,7 @@ def pageRender(data):
         
         block += "function " + language_code + "Layout( name, config ) {  \n"
 
-        block += "  " + language_code + "Layout.super.call( this, name, config );\n"
+        #block += "  " + language_code + "Layout.super.call( this, name, config );\n"
         block += "  this.$element.append( header );\n"
     
         block += "  var progressBar = new OO.ui.ProgressBarWidget( {\n"
