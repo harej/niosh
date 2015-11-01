@@ -149,7 +149,7 @@ def pageRender(data):
            '''
 
     list_of_pages = ""
-    for language in language_labels:
+    for language in data:
         if language != "en":
             list_of_pages += "page" + language + ", "
     list_of_pages = list_of_pages[:-2]
