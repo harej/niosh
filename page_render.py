@@ -108,7 +108,7 @@ def pageRender(data):
         block += "  this.$element.append( header );\n"
     
         block += "  var progressBar = new OO.ui.ProgressBarWidget( {\n"
-        block += "    progress: " + str(int(ratio * 100)) + "\n"
+        block += "    progress: " + str(int(bundle['gap_analysis'] * 100)) + "\n"
         block += "  } );\n"
     
         block += "  this.$element.append( progressBar.$element );\n"
