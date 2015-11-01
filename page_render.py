@@ -85,7 +85,7 @@ def pageRender(data):
     page += '                           icon: "check",\n'
     page += '                           classes: [ "inlineButton" ]\n'
     page += '                           } );\n'
-    page += '    this.tableRow = "<tr class=translated><td>";'
+    page += '    this.tableRow = "<tr class=translated><td>";\n'
     page += '    if (data["en"]["wikidata"][wikidataitem] != null) {\n'
     page += '      this.tableRow += data["en"]["wikidata"][wikidataitem];\n'
     page += '    } else {\n'
@@ -93,7 +93,7 @@ def pageRender(data):
     page += '    };\n'
     page += '    this.tableRow += "</td><td>→</td><td>" + data[language_code]["wikidata"][wikidataitem] + "</td><td class=btn></td></tr>";\n'
     page += '  };\n'
-    page += '  this.$element.find( ".btn" ).append( this.tableButton );\n'
+    page += '  this.tableRow.find( ".btn" ).append( this.tableButton );\n'
     page += '};\n'
 
     for language_code, bundle in data.items():
