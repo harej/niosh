@@ -2,8 +2,9 @@
 # Everything else: public domain
 
 import time  # Whoa.
+import json
 
-def pageRender(manifest, gap_report, language_labels):
+def pageRender(data):
     # Takes data and returns a static HTML page using OOjs UI
     # Page is returned as a string. A very long string.
 
@@ -52,20 +53,59 @@ def pageRender(manifest, gap_report, language_labels):
            <script src="node_modules/oojs-ui/dist/oojs-ui.js"></script>
            <script src="node_modules/oojs-ui/dist/oojs-ui-mediawiki.js"></script>
            <script>
-
-
            '''
 
-    for language, ratio in gap_report.items():
-        if language == 'en': # We don't generate a report in English
+    page += 'var data = ' + json.dumps(data) + ';\n'
+    page += 'var header = "<h1>NIOSH Wikidata Translation Report</h1><p>Last updated: ' + now + '</p><br />";\n'
+    page += 'function rowGenerator( wikidataitem, language_code ) { \n'
+    page += '  if (data[language_code]["wikidata"][wikidataitem] === null) { \n'
+    page += '    this.tableButton = new OO.ui.ButtonWidget( {\n'
+    page += '                           label: "Add Translation",\n'
+    page += '                           href: "https://www.wikidata.org/wiki/Special:SetLabelDescriptionAliases/" + wikidataitem + "/" + language_code,\n'
+    page += '                           target: "_blank",\n'
+    page += '                           flags: [ "constructive" ],\n'
+    page += '                           framed: false,\n'
+    page += '                           icon: "add",\n'
+    page += '                           classes: [ "inlineButton" ]\n'
+    page += '                           } );\n'
+    page += '    this.tableRow = "<tr class=missing><td>";'
+    page += '    if (data["en"]["wikidata"][wikidataitem] != null) {\n'
+    page += '      this.tableRow += data["en"]["wikidata"][wikidataitem];\n'
+    page += '    } else {\n'
+    page += '      this.tableRow += "—";\n'
+    page += '    };\n'
+    page += '    this.tableRow += "</td><td>→</td><td>missing</td><td class=btn></td></tr>";\n'
+    page += '  } else {\n'
+    page += '    this.tableButton = new OO.ui.ButtonWidget( {\n'
+    page += '                           label: "Fix Translation",\n'
+    page += '                           href: "https://www.wikidata.org/wiki/Special:SetLabelDescriptionAliases/" + wikidataitem + "/" + language_code,\n'
+    page += '                           target: "_blank",\n'
+    page += '                           flags: [ "progressive" ],\n'
+    page += '                           framed: false,\n'
+    page += '                           icon: "check",\n'
+    page += '                           classes: [ "inlineButton" ]\n'
+    page += '                           } );\n'
+    page += '    this.tableRow = "<tr class=translated><td>";'
+    page += '    if (data["en"]["wikidata"][wikidataitem] != null) {\n'
+    page += '      this.tableRow += data["en"]["wikidata"][wikidataitem];\n'
+    page += '    } else {\n'
+    page += '      this.tableRow += "—";\n'
+    page += '    };\n'
+    page += '    this.tableRow += "</td><td>→</td><td>" + data[language_code]["wikidata"][wikidataitem] + "</td><td class=btn></td></tr>";\n'
+    page += '  };\n'
+    page += '  this.$element.find( ".btn" ).append( this.tableButton );\n'
+    page += '};\n'
+
+    for language_code, bundle in data.items():
+        if language_code == 'en': # We don't generate a report in English
             continue
 
         block = "\n"  # Mark Block here
         
-        block += "function " + language + "Layout( name, config ) {  \n"
+        block += "function " + language_code + "Layout( name, config ) {  \n"
 
-        block += "  " + language + "Layout.super.call( this, name, config );\n"
-        block += "  this.$element.append( '<h1>NIOSH Wikidata Translation Report</h1><p>Last updated: " + now + "</p><br />' );\n"
+        block += "  " + language_code + "Layout.super.call( this, name, config );\n"
+        block += "  this.$element.append( header );\n"
     
         block += "  var progressBar = new OO.ui.ProgressBarWidget( {\n"
         block += "    progress: " + str(int(ratio * 100)) + "\n"
@@ -87,70 +127,18 @@ def pageRender(manifest, gap_report, language_labels):
         block += "  this.$element.append( toggleSwitch1.$element );\n"
         block += "  this.$element.append( '&nbsp; Only show missing translations</div>' );\n"
 
-        buttonDefinitions = ""
-        buttonCounter = 1
-
-        for wikidataitem, label_dict in manifest.items():
-            if label_dict[language] == None:  # Term needs to be translated
-                button = ""
-                button += "  var tableButton" + str(buttonCounter) + " = new OO.ui.ButtonWidget( {\n"
-                button += "    label: 'Add Translation',\n"
-                button += "    href: 'https://www.wikidata.org/wiki/Special:SetLabelDescriptionAliases/" + wikidataitem + "/" + language + "',\n"
-                button += "    target: '_blank',\n"
-                button += "    flags: [ 'constructive' ],\n"
-                button += "    framed: false,\n"
-                button += "    icon: 'add',\n"
-                button += "    classes: [ 'inlineButton' ]"
-                button += "  } );\n"
-                button += '  var Row' + str(buttonCounter) + ' = "<tr class=missing><td>'
-                if label_dict['en'] != None:
-                    button += label_dict['en']
-                else:
-                    button += "missing"
-                button += '</td><td>→</td><td>missing</td><td class=placeholder'
-                button += str(buttonCounter) + '></td></tr>";\n'
-            else:  # Term has already been translated
-                button = ""
-                button += "  var tableButton" + str(buttonCounter) + " = new OO.ui.ButtonWidget( {\n"
-                button += "    label: 'Fix Translation',\n"
-                button += "    href: 'https://www.wikidata.org/wiki/Special:SetLabelDescriptionAliases/" + wikidataitem + "/" + language + "',\n"
-                button += "    target: '_blank',\n"
-                button += "    flags: 'progressive',\n"
-                button += "    framed: false,\n"
-                button += "    icon: 'check',\n"
-                button += "    classes: [ 'inlineButton' ]\n"
-                button += "  } );\n"
-                button += '  var Row' + str(buttonCounter) + ' = "<tr class=translated><td>'
-                if label_dict['en'] != None:
-                    button += label_dict['en']
-                else:
-                    button += "missing"
-                button += '</td><td>→</td><td>' + label_dict[language]
-                button += '</td><td class=placeholder' + str(buttonCounter) + '></td></tr>";\n'
-
-            block += button
-            buttonCounter += 1
-
-        block += "  var TableStart = '<table>';\n"
-        block += "  var TableEnd = '</table>';\n"
-
-        block += "  this.$element.append( TableStart + "
-        for x in range(1, buttonCounter):
-            block += "Row" + str(x) + " + "
-        block += "TableEnd );\n"
-
-        for x in range(1, buttonCounter):  # Yes, this again
-            block += "  this.$element.find( '.placeholder" + str(x) + "' ).append( tableButton" + str(x) + ".$element );\n"
-
-        block += "}\n"
-        block += "  OO.inheritClass( " + language + "Layout, OO.ui.PageLayout );\n"
-        block += "  " + language + "Layout.prototype.setupOutlineItem = function () {\n"
-        block += "    this.outlineItem.setLabel( '" + language_labels[language] + "' );\n"
-        block += "  };\n"
+        block += '  var ReportTable = "<table class=report></table>";\n'
+        block += '  var ReportContent;\n'
+        block += '  for (entry in data[language_code]["wikidata"]) {\n'
+        block += '    var addition = new rowGenerator( entry, language_code );\n'
+        block += '    ReportContent += addition.tableRow;\n'
+        block += '  };\n'
+        block += '  this.$element.find( ".report" ).append( ReportContent );\n'
+        block += '};\n'
 
         page += block
 
-    for language in language_labels:
+    for language in data:
         if language != "en":  # Again, English does not have its own list
             page += "var page" + language + " = new " + language + "Layout( '" + language + "' );\n"
 

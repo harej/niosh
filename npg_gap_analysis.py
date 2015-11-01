@@ -77,7 +77,6 @@ def gap_analysis(manifest):
 
 def main():
     language_codes =  ['en', 'es', 'zh', 'fr', 'de']
-    language_labels = {'en': 'English', 'es': 'español', 'zh': '中文', 'fr': 'français', 'de': 'Deutsch'}
     
     print("Querying for list of chemical/exposure items...")
     chemicals_and_exposures_query = "prefix%20wdt%3A%20<http%3A%2F%2Fwww.wikidata.org%2Fprop%2Fdirect%2F>%0Aprefix%20entity%3A%20<http%3A%2F%2Fwww.wikidata.org%2Fentity%2F>%0ASELECT%20%3Fitem%20WHERE%20%7B%0A%7B%0A%20%20%20%20%3Fitem%20wdt%3AP1931%20%3Fdummy0%20.%0A%7D%20UNION%20%7B%0A%20%20%20%20%3Fitem%20wdt%3AP279%20entity%3AQ21167512%20.%0A%7D%0A%7D"
@@ -96,10 +95,24 @@ def main():
                 master_list[link] = other_language_labels(entitydata(link), language_codes)
 
     print("Doing gap analysis...")
-    gap_report = gap_analysis(master_list)
+    gaps = gap_analysis(master_list)
 
     print("Preparing page...")
-    page = page_render.pageRender(master_list, gap_report, language_labels)
+    # Preparing JS object to be used by page renderer
+
+    export = {x: {'gap_analysis': gaps[x], 'language_label': x, 'wikidata': {}} for x in language_codes}
+
+    export['en']['language_label'] = "English"
+    export['es']['language_label'] = "español"
+    export['zh']['language_label'] = "中文"
+    export['fr']['language_label'] = "français"
+    export['de']['language_label'] = "Deutsch"
+
+    for language_code in data:
+        for wikidataitem, label_dict in master_list.items():
+            data[language_code]['wikidata'][wikidataitem] = label_dict[language_code]
+        
+    page = page_render.pageRender(export)
 
     with open("./public_html/wdtranslations.html", "w") as f:
         f.write(page)
