@@ -68,7 +68,7 @@ def pageRender(data):
     page += '                           icon: "add",\n'
     page += '                           classes: [ "inlineButton" ]\n'
     page += '                           } );\n'
-    page += '    this.tableRow = "<tr class=missing><td>";'
+    page += '    this.tableRow = "<tr class=missing><td>";\n'
     page += '    if (data["en"]["wikidata"][wikidataitem] != null) {\n'
     page += '      this.tableRow += data["en"]["wikidata"][wikidataitem];\n'
     page += '    } else {\n'
