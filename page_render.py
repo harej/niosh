@@ -2,6 +2,7 @@
 # Everything else: public domain
 
 import time  # Whoa.
+import json
 
 def pageRender(manifest, gap_report, language_labels):
     # Takes data and returns a static HTML page using OOjs UI
@@ -104,7 +105,7 @@ def pageRender(manifest, gap_report, language_labels):
                 button += "  } );\n"
                 button += "  var Row" + str(buttonCounter) + " = '<tr class=missing><td>"
                 if label_dict['en'] != None:
-                    button += label_dict['en'].replace("'", "\'")
+                    button += json.dumps(label_dict['en'])
                 else:
                     button += "missing"
                 button += "</td><td>→</td><td>missing</td><td class=placeholder"
@@ -122,10 +123,10 @@ def pageRender(manifest, gap_report, language_labels):
                 button += "  } );\n"
                 button += "  var Row" + str(buttonCounter) + " = '<tr class=translated><td>"
                 if label_dict['en'] != None:
-                    button += label_dict['en'].replace("'", "\'")
+                    button += json.dumps(label_dict['en'])
                 else:
                     button += "missing"
-                button += "</td><td>→</td><td>" + label_dict[language]
+                button += "</td><td>→</td><td>" + json.dumps(label_dict[language])
                 button += "</td><td class=placeholder" + str(buttonCounter) + "></td></tr>';\n"
 
             block += button
@@ -150,8 +151,8 @@ def pageRender(manifest, gap_report, language_labels):
 
         page += block
 
-    for version in language_labels:
-        if version != "en":  # Again, English does not have its own list
+    for language in language_labels:
+        if language != "en":  # Again, English does not have its own list
             page += "var page" + language + " = new " + language + "Layout( '" + language + "' );\n"
 
     page += '''
