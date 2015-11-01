@@ -104,7 +104,7 @@ def pageRender(manifest, gap_report, language_labels):
                 button += "  } );\n"
                 button += "  var Row" + str(buttonCounter) + " = '<tr class=missing><td>"
                 if label_dict['en'] != None:
-                    button += label_dict['en']
+                    button += label_dict['en'].replace("'", "\'")
                 else:
                     button += "missing"
                 button += "</td><td>→</td><td>missing</td><td class=placeholder"
@@ -122,7 +122,7 @@ def pageRender(manifest, gap_report, language_labels):
                 button += "  } );\n"
                 button += "  var Row" + str(buttonCounter) + " = '<tr class=translated><td>"
                 if label_dict['en'] != None:
-                    button += label_dict['en']
+                    button += label_dict['en'].replace("'", "\'")
                 else:
                     button += "missing"
                 button += "</td><td>→</td><td>" + label_dict[language]
@@ -161,7 +161,7 @@ def pageRender(manifest, gap_report, language_labels):
            '''
 
     list_of_pages = ""
-    for language in manifest:
+    for language in language_labels:
         if language != "en":
             list_of_pages += "page" + language + ", "
     list_of_pages = list_of_pages[:-2]
