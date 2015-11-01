@@ -57,7 +57,7 @@ def pageRender(manifest, gap_report, language_labels):
            '''
 
     for language, ratio in gap_report.items():
-        if language != 'en': # We don't generate a report in English
+        if language == 'en': # We don't generate a report in English
             continue
 
         block = "\n"  # Mark Block here
