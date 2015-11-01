@@ -103,13 +103,13 @@ def pageRender(manifest, gap_report, language_labels):
                 button += "    icon: 'add',\n"
                 button += "    classes: [ 'inlineButton' ]"
                 button += "  } );\n"
-                button += "  var Row" + str(buttonCounter) + " = '<tr class=missing><td>"
+                button += '  var Row' + str(buttonCounter) + ' = "<tr class=missing><td>'
                 if label_dict['en'] != None:
                     button += json.dumps(label_dict['en'])
                 else:
                     button += "missing"
-                button += "</td><td>→</td><td>missing</td><td class=placeholder"
-                button += str(buttonCounter) + "></td></tr>';\n"
+                button += '</td><td>→</td><td>missing</td><td class=placeholder'
+                button += str(buttonCounter) + '></td></tr>";\n'
             else:  # Term has already been translated
                 button = ""
                 button += "  var tableButton" + str(buttonCounter) + " = new OO.ui.ButtonWidget( {\n"
@@ -121,13 +121,13 @@ def pageRender(manifest, gap_report, language_labels):
                 button += "    icon: 'check',\n"
                 button += "    classes: [ 'inlineButton' ]\n"
                 button += "  } );\n"
-                button += "  var Row" + str(buttonCounter) + " = '<tr class=translated><td>"
+                button += '  var Row' + str(buttonCounter) + ' = "<tr class=translated><td>'
                 if label_dict['en'] != None:
                     button += json.dumps(label_dict['en'])
                 else:
                     button += "missing"
-                button += "</td><td>→</td><td>" + json.dumps(label_dict[language])
-                button += "</td><td class=placeholder" + str(buttonCounter) + "></td></tr>';\n"
+                button += '</td><td>→</td><td>' + json.dumps(label_dict[language])
+                button += '</td><td class=placeholder' + str(buttonCounter) + '></td></tr>";\n'
 
             block += button
             buttonCounter += 1
