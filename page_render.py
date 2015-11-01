@@ -59,7 +59,7 @@ def pageRender(data):
     page += 'var header = "<h1>NIOSH Wikidata Translation Report</h1><p>Last updated: ' + now + '</p><br />";\n'
     page += 'function rowGenerator( wikidataitem, language_code ) { \n'
     page += '  if (data[language_code]["wikidata"][wikidataitem] === null) { \n'
-    page += '    tableButton = new OO.ui.ButtonWidget( {\n'
+    page += '    var tableButton = new OO.ui.ButtonWidget( {\n'
     page += '                           label: "Add Translation",\n'
     page += '                           href: "https://www.wikidata.org/wiki/Special:SetLabelDescriptionAliases/" + wikidataitem + "/" + language_code,\n'
     page += '                           target: "_blank",\n'
@@ -68,7 +68,7 @@ def pageRender(data):
     page += '                           icon: "add",\n'
     page += '                           classes: [ "inlineButton" ]\n'
     page += '                           } );\n'
-    page += '    tableRow = "<tr class=missing><td>";\n'
+    page += '    var tableRow = "<tr class=missing><td>";\n'
     page += '    if (data["en"]["wikidata"][wikidataitem] != null) {\n'
     page += '      tableRow += data["en"]["wikidata"][wikidataitem];\n'
     page += '    } else {\n'
@@ -76,7 +76,7 @@ def pageRender(data):
     page += '    };\n'
     page += '    tableRow += "</td><td>→</td><td>missing</td><td class=btn></td></tr>";\n'
     page += '  } else {\n'
-    page += '    tableButton = new OO.ui.ButtonWidget( {\n'
+    page += '    var tableButton = new OO.ui.ButtonWidget( {\n'
     page += '                           label: "Fix Translation",\n'
     page += '                           href: "https://www.wikidata.org/wiki/Special:SetLabelDescriptionAliases/" + wikidataitem + "/" + language_code,\n'
     page += '                           target: "_blank",\n'
@@ -85,7 +85,7 @@ def pageRender(data):
     page += '                           icon: "check",\n'
     page += '                           classes: [ "inlineButton" ]\n'
     page += '                           } );\n'
-    page += '    tableRow = "<tr class=translated><td>";\n'
+    page += '    var tableRow = "<tr class=translated><td>";\n'
     page += '    if (data["en"]["wikidata"][wikidataitem] != null) {\n'
     page += '      tableRow += data["en"]["wikidata"][wikidataitem];\n'
     page += '    } else {\n'
@@ -93,6 +93,7 @@ def pageRender(data):
     page += '    };\n'
     page += '    tableRow += "</td><td>→</td><td>" + data[language_code]["wikidata"][wikidataitem] + "</td><td class=btn></td></tr>";\n'
     page += '  };\n'
+    page += '  this.$element.tableRow = tableRow;\n'
     page += '  tableRow.find( ".btn" ).append( tableButton );\n'
     page += '};\n'
 
@@ -116,7 +117,7 @@ def pageRender(data):
     
         block += "  var toggleSwitch1 = new OO.ui.ToggleSwitchWidget( { \n"
         block += "    value: false\n"
-        block += "  } );"
+        block += "  } );\n"
 
         block += "  var that = this;\n"
         block += "  toggleSwitch1.on( 'change', function() {\n"
@@ -131,7 +132,7 @@ def pageRender(data):
         block += '  var ReportContent;\n'
         block += '  for (entry in data[language_code]["wikidata"]) {\n'
         block += '    var addition = new rowGenerator( entry, language_code );\n'
-        block += '    ReportContent += addition.tableRow;\n'
+        block += '    ReportContent += addition.$element.tableRow;\n'
         block += '  };\n'
         block += '  this.$element.find( ".report" ).append( ReportContent );\n'
         block += '};\n'
