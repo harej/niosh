@@ -127,7 +127,7 @@ def pageRender(data):
         block += '  this.$element.append( "<table class=report>" );\n'
         block += '  for (entry in data["' + language_code + '"]["wikidata"]) {\n'
         block += '    var addition = new rowGenerator( entry, "' + language_code + '" );\n'
-        block += '    this.$element.append(addition.tableRow.$element);\n'
+        block += '    this.$element.append(addition.tableRow);\n'
         block += '  };\n'
         block += '  this.$element.append( "</table>" );\n'
         block += '};\n'
