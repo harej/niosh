@@ -136,6 +136,10 @@ def pageRender(data):
         block += '  };\n'
         block += '  this.$element.find( ".report" ).append( ReportContent );\n'
         block += '};\n'
+        block += 'OO.inheritClass( ' + language_code + 'Layout, OO.ui.PageLayout );\n'
+        block += language_code + 'Layout.prototype.setupOutlineItem = function () {\n'
+        block += '  this.outlineItem.setLabel( "' + bundle['language_label'] + '" );\n'
+        block += '};\n'
 
         page += block
 
