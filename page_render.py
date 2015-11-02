@@ -73,7 +73,7 @@ def pageRender(data):
     page += '    } else {\n'
     page += '      englishLabel = "—";\n'
     page += '    };\n'
-    page += '   this.tableRow = $("<tr class=missing>").append( $("<td>").text( englishLabel ), $("<td>").text( "missing" ), $("<td>").append(this.tableButton.$element) );\n'
+    page += '   this.tableRow = $("<tr class=missing>").append( $("<td>").text( englishLabel ), $("<td>").text("→"), $("<td>").text( "missing" ), $("<td>").append(this.tableButton.$element) );\n'
     page += '  } else {\n'
     page += '    this.tableButton = new OO.ui.ButtonWidget( {\n'
     page += '                           label: "Fix Translation",\n'
@@ -89,7 +89,7 @@ def pageRender(data):
     page += '    } else {\n'
     page += '      englishLabel = "—";\n'
     page += '    };\n'
-    page += '   this.tableRow = $("<tr class=translated>").append( $("<td>").text( englishLabel ), $("<td>").text( data[language_code]["wikidata"][wikidataitem] ), $("<td>").append(this.tableButton.$element) );\n'
+    page += '   this.tableRow = $("<tr class=translated>").append( $("<td>").text( englishLabel ), $("<td>").text("→"), $("<td>").text( data[language_code]["wikidata"][wikidataitem] ), $("<td>").append(this.tableButton.$element) );\n'
     page += '  };\n'
     page += '};\n'
 
