@@ -124,13 +124,12 @@ def pageRender(data):
         block += "  this.$element.append( toggleSwitch1.$element );\n"
         block += "  this.$element.append( '&nbsp; Only show missing translations</div>' );\n"
 
-        block += '  this.$element.append( "<table class=report></table>" );\n'
-        block += '  var ReportContent;\n'
+        block += '  this.$element.append( "<table class=report>" );\n'
         block += '  for (entry in data["' + language_code + '"]["wikidata"]) {\n'
         block += '    var addition = new rowGenerator( entry, "' + language_code + '" );\n'
-        block += '    ReportContent += addition.tableRow.$element;\n'
+        block += '    this.$element.append(addition.tableRow.$element);\n'
         block += '  };\n'
-        block += '  this.$element.find( ".report" ).append( ReportContent );\n'
+        block += '  this.$element.append( "</table>" );\n'
         block += '};\n'
         block += 'OO.inheritClass( ' + language_code + 'Layout, OO.ui.PageLayout );\n'
         block += language_code + 'Layout.prototype.setupOutlineItem = function () {\n'
