@@ -126,7 +126,7 @@ def pageRender(data):
         block += "  this.$element.append( toggleSwitch1.$element );\n"
         block += "  this.$element.append( '&nbsp; Only show missing translations</div>' );\n"
 
-        block += '  var ReportTable = "<table class=report></table>";\n'
+        block += '  this.$element.append( "<table class=report></table>" );\n'
         block += '  var ReportContent;\n'
         block += '  for (entry in data["' + language_code + '"]["wikidata"]) {\n'
         block += '    var addition = new rowGenerator( entry, "' + language_code + '" );\n'
