@@ -130,7 +130,7 @@ def pageRender(data):
 
         block += '  var ReportTable = "<table class=report></table>";\n'
         block += '  var ReportContent;\n'
-        block += '  for (entry in data[language_code]["wikidata"]) {\n'
+        block += '  for (entry in data["' + language_code + '"]["wikidata"]) {\n'
         block += '    var addition = new rowGenerator( entry, language_code );\n'
         block += '    ReportContent += addition.$element.tableRow;\n'
         block += '  };\n'
