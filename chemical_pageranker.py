@@ -720,4 +720,4 @@ for item in manifest:
 
 
 for pair in result:
-    print(result[0] + "|" + str(result[1]))  # will sort output in Excel; am lazy
+    print(pair[0] + "|" + str(pair[1]))  # will sort output in Excel; am lazy
